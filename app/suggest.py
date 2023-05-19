@@ -2,7 +2,6 @@ from app.window import Window
 
 
 class Suggest(Window):
-
     def __init__(self, path, wind_name):
         super().__init__(path, wind_name)
         self.form.suggestBack.clicked.connect(self.close_search)
@@ -13,9 +12,7 @@ class Suggest(Window):
         self.close_wind()
 
     def all_cats(self):
-        allCats = []
+        all_cats = []
         for i in range(len(self.readlines)):
-            allCats += self.readlines[i][1].split(",")
-        print(set(allCats))
-
-
+            all_cats += self.readlines[i][1].split(",")
+        print(set(all_cats))

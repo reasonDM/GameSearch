@@ -1,17 +1,12 @@
 from PyQt6.QtWidgets import QTableWidgetItem
 
-from app.window import Window
+from window import Window
 
 
 class Search(Window):
-
     def __init__(self, path, wind_name):
         super().__init__(path, wind_name)
         self.form.searchBack.clicked.connect(self.close_search)
-        # self.file = open("parser/games.txt", encoding='utf-8')
-        # self.readlines = self.file.readlines()
-        # for i in range(len(self.readlines)):
-        #     self.readlines[i] = self.readlines[i].strip().split("\t")
 
         self.form.lineEdit.textChanged.connect(self.search)
         self.form.rate_button.clicked.connect(self.sort_rate)
@@ -19,8 +14,6 @@ class Search(Window):
         self.form.rate_numButton.clicked.connect(self.sortNum_rate)
         print(self.all_cats())
         self.form.comboBox.currentIndexChanged.connect(self.search)
-
-
 
     def close_search(self):
         Window.gm["Menu_wind"]["object"].open_wind()
@@ -33,7 +26,13 @@ class Search(Window):
         if search_res == "":
             self.form.tableWidget.setRowCount(max_games)
             for i in range(len(self.readlines)):
-                if self.readlines[i][1].lower().find(self.form.comboBox.currentText().lower()) != -1 or self.form.comboBox.currentText().lower() == "все":
+                if (
+                    self.readlines[i][1]
+                    .lower()
+                    .find(self.form.comboBox.currentText().lower())
+                    != -1
+                    or self.form.comboBox.currentText().lower() == "все"
+                ):
                     name = self.readlines[i][0]
                     item = QTableWidgetItem(name)
                     self.form.tableWidget.setItem(n, 0, item)
@@ -55,7 +54,13 @@ class Search(Window):
             n = 0
             self.form.tableWidget.setRowCount(max_games)
             for i in range(len(self.readlines)):
-                if self.readlines[i][0].lower().find(search_res.lower()) != -1 and (self.readlines[i][1].lower().find(self.form.comboBox.currentText().lower()) != -1 or self.form.comboBox.currentText().lower() == "все"):
+                if self.readlines[i][0].lower().find(search_res.lower()) != -1 and (
+                    self.readlines[i][1]
+                    .lower()
+                    .find(self.form.comboBox.currentText().lower())
+                    != -1
+                    or self.form.comboBox.currentText().lower() == "все"
+                ):
                     name = self.readlines[i][0]
                     item = QTableWidgetItem(name)
                     self.form.tableWidget.setItem(n, 0, item)
@@ -68,7 +73,7 @@ class Search(Window):
                     rate_num = self.readlines[i][3]
                     item = QTableWidgetItem(rate_num)
                     self.form.tableWidget.setItem(n, 3, item)
-                    n+=1
+                    n += 1
             self.form.tableWidget.setRowCount(n)
 
     def sort_rate(self):
@@ -77,18 +82,29 @@ class Search(Window):
         join = []
         if search_res == "":
             for i in range(len(self.readlines)):
-                if self.readlines[i][1].lower().find(
-                    self.form.comboBox.currentText().lower()) != -1 or self.form.comboBox.currentText().lower() == "все":
+                if (
+                    self.readlines[i][1]
+                    .lower()
+                    .find(self.form.comboBox.currentText().lower())
+                    != -1
+                    or self.form.comboBox.currentText().lower() == "все"
+                ):
                     join.append(self.readlines[i])
 
         else:
             max_games = 1000
             n = 0
             for i in range(len(self.readlines)):
-                if self.readlines[i][0].lower().find(search_res.lower()) != -1 and (self.readlines[i][1].lower().find(self.form.comboBox.currentText().lower()) != -1 or self.form.comboBox.currentText().lower() == "все"):
+                if self.readlines[i][0].lower().find(search_res.lower()) != -1 and (
+                    self.readlines[i][1]
+                    .lower()
+                    .find(self.form.comboBox.currentText().lower())
+                    != -1
+                    or self.form.comboBox.currentText().lower() == "все"
+                ):
                     join.append(self.readlines[i])
                     n += 1
-        join.sort(key = lambda x: -float(x[2]))
+        join.sort(key=lambda x: -float(x[2]))
         self.form.tableWidget.setRowCount(len(join))
         for i in range(len(join)):
             name = join[i][0]
@@ -106,19 +122,28 @@ class Search(Window):
 
     def alf_sort(self):
         search_res = self.form.lineEdit.text()
-        max_games = 1000
         join = []
         if search_res == "":
             for i in range(len(self.readlines)):
-                if self.readlines[i][1].lower().find(
-                        self.form.comboBox.currentText().lower()) != -1 or self.form.comboBox.currentText().lower() == "все":
+                if (
+                    self.readlines[i][1]
+                    .lower()
+                    .find(self.form.comboBox.currentText().lower())
+                    != -1
+                    or self.form.comboBox.currentText().lower() == "все"
+                ):
                     join.append(self.readlines[i])
 
         else:
-            max_games = 1000
             n = 0
             for i in range(len(self.readlines)):
-                if self.readlines[i][0].lower().find(search_res.lower()) != -1 and (self.readlines[i][1].lower().find(self.form.comboBox.currentText().lower()) != -1 or self.form.comboBox.currentText().lower() == "все"):
+                if self.readlines[i][0].lower().find(search_res.lower()) != -1 and (
+                    self.readlines[i][1]
+                    .lower()
+                    .find(self.form.comboBox.currentText().lower())
+                    != -1
+                    or self.form.comboBox.currentText().lower() == "все"
+                ):
                     join.append(self.readlines[i])
                     n += 1
         join.sort(key=lambda x: x[0])
@@ -139,22 +164,32 @@ class Search(Window):
 
     def sortNum_rate(self):
         search_res = self.form.lineEdit.text()
-        max_games = 1000
+
         join2 = []
         if search_res == "":
             for i in range(len(self.readlines)):
-                if self.readlines[i][1].lower().find(
-                        self.form.comboBox.currentText().lower()) != -1 or self.form.comboBox.currentText().lower() == "все":
+                if (
+                    self.readlines[i][1]
+                    .lower()
+                    .find(self.form.comboBox.currentText().lower())
+                    != -1
+                    or self.form.comboBox.currentText().lower() == "все"
+                ):
                     join2.append(self.readlines[i])
 
         else:
-            max_games = 1000
             n = 0
             for i in range(len(self.readlines)):
-                if self.readlines[i][0].lower().find(search_res.lower()) != -1 and (self.readlines[i][1].lower().find(self.form.comboBox.currentText().lower()) != -1 or self.form.comboBox.currentText().lower() == "все"):
+                if self.readlines[i][0].lower().find(search_res.lower()) != -1 and (
+                    self.readlines[i][1]
+                    .lower()
+                    .find(self.form.comboBox.currentText().lower())
+                    != -1
+                    or self.form.comboBox.currentText().lower() == "все"
+                ):
                     join2.append(self.readlines[i])
                     n += 1
-        join2.sort(key = lambda x: -int(x[3]))
+        join2.sort(key=lambda x: -int(x[3]))
         self.form.tableWidget.setRowCount(len(join2))
         for i in range(len(join2)):
             name = join2[i][0]
@@ -179,11 +214,16 @@ class Search(Window):
 
     def choose_cat(self):
         max_games = 1000
-        join_cat = []
         n = 0
         self.form.tableWidget.setRowCount(max_games)
         for i in range(len(self.readlines)):
-            if self.readlines[i][1].lower().find(self.form.comboBox.currentText().lower()) != -1 or self.form.comboBox.currentText().lower() == "все":
+            if (
+                self.readlines[i][1]
+                .lower()
+                .find(self.form.comboBox.currentText().lower())
+                != -1
+                or self.form.comboBox.currentText().lower() == "все"
+            ):
                 name = self.readlines[i][0]
                 item = QTableWidgetItem(name)
                 self.form.tableWidget.setItem(n, 0, item)
@@ -196,15 +236,8 @@ class Search(Window):
                 rate_num = self.readlines[i][3]
                 item = QTableWidgetItem(rate_num)
                 self.form.tableWidget.setItem(n, 3, item)
-                n+=1
+                n += 1
             if n == 1000:
                 break
 
         self.form.tableWidget.setRowCount(n)
-
-
-
-
-
-
-
